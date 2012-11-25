@@ -38,14 +38,14 @@ void main()
     vec3 materialSpec  = gl_FrontMaterial.specular.xyz;
     float shininess    = gl_FrontMaterial.shininess;
 
-	/* CS 148 TODO: Implement the Phong reflectance model here */
+	/* Code for Phong reflectance model here */
     vec3 normalizedNormal = normalize(N);
     vec3 surfaceToLightSource = normalize(lightSource - modelPos);
     vec3 reflectionDirection = normalize(reflect(surfaceToLightSource, normalizedNormal));
     vec3 surfaceToViewer = normalize(C - modelPos);
     vec3 finalColor = ambientColor * materialColor +
                       max(0.0, dot(normalizedNormal, surfaceToLightSource)) * diffuseColor * materialColor +
-                      pow(dot(reflectionDirection, surfaceToViewer), shininess) * specularColor * materialSpec;
+                      pow(max(0.0, dot(reflectionDirection, surfaceToViewer)), shininess) * specularColor * materialSpec;
 
     gl_FragColor = vec4(finalColor, 1.0);
 }
