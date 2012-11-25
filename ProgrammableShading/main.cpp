@@ -175,7 +175,7 @@ void DisplayCallback()
     {
         // Draw a Utah Teapot
         shader->SetUniform("teapot", 1.);
-        glutSolidTeapot(1); 
+        glutSolidTeapot(1);
     }
     else
     {
@@ -287,6 +287,7 @@ void KeyCallback(unsigned char key, int x, int y)
         break;
     case 't':
         teapot = !teapot;
+        if (teapot) printf("HTTP 418\n");
         break;
 	case 'q':
 		exit(0);
