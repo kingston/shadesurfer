@@ -170,6 +170,9 @@ void DisplayCallback()
     // Invoke the shader.  Now OpenGL will call our
     // shader programs on anything we draw.
     shader->Bind();
+    
+    // Bind the time
+    shader->SetUniform("time", glutGet(GLUT_ELAPSED_TIME));
 
     if (teapot)
     {

@@ -7,6 +7,8 @@
 
 // This 'varying' vertex output can be read as an input
 // by a fragment shader that makes the same declaration.
+uniform float time;
+
 varying vec2 texPos;
 varying vec3 modelPos;
 varying vec3 lightSource;
@@ -17,9 +19,11 @@ varying float displacement;
 float h(float u, float v)
 {
     float PI = 3.14159265358979323846264;
-    float s = 0.01; // max displacement
-    float a = 20.0; // frequency
-    return s * cos(a * 2.0 * PI * u) * cos(a * 2.0 * PI * v);
+    float s = 0.1; // max displacement
+    float a = 10.0; // frequency
+    float speed = 6.0;
+    vec2 pos = vec2(u - 0.5, v - 0.5);
+    return s * sin(a * 2.0 * PI * length(pos) - time / 1000.0 * speed) / (length(pos) * 20.0 + 1.0);
 }
 
 void main()
