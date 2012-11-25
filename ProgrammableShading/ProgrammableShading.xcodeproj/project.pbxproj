@@ -45,6 +45,10 @@
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		8DD76F6C0486A84900D96B5E /* ProgrammableShading */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ProgrammableShading; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0A0EA911662087000028C87 /* default.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = default.vert; sourceTree = "<group>"; };
+		D0A0EA921662087000028C87 /* displacement.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = displacement.vert; sourceTree = "<group>"; };
+		D0A0EA931662087000028C87 /* lightprobe.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = lightprobe.frag; sourceTree = "<group>"; };
+		D0A0EA941662087000028C87 /* phong.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = phong.frag; sourceTree = "<group>"; };
 		E019EAD40F436B9700EE6385 /* libst.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libst.xcodeproj; path = ../libst/xcode/libst.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E019EADE0F436BD800EE6385 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		E019EADF0F436BD800EE6385 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -68,6 +72,7 @@
 		08FB7794FE84155DC02AAC07 /* ImageProcessor */ = {
 			isa = PBXGroup;
 			children = (
+				D0A0EA901662087000028C87 /* kernels */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6859E8C029090F304C91782 /* Documentation */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
@@ -100,6 +105,17 @@
 			children = (
 			);
 			name = Documentation;
+			sourceTree = "<group>";
+		};
+		D0A0EA901662087000028C87 /* kernels */ = {
+			isa = PBXGroup;
+			children = (
+				D0A0EA911662087000028C87 /* default.vert */,
+				D0A0EA921662087000028C87 /* displacement.vert */,
+				D0A0EA931662087000028C87 /* lightprobe.frag */,
+				D0A0EA941662087000028C87 /* phong.frag */,
+			);
+			path = kernels;
 			sourceTree = "<group>";
 		};
 		E019EAD50F436B9700EE6385 /* Products */ = {
