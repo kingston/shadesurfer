@@ -59,6 +59,11 @@ public:
     // Delete an existing STTexture.
     //
     ~STTexture();
+    
+    //
+    // Load data of an array of shorts into the STTexture into the r component
+    //
+    void LoadShortData(const short* data, int width, int height);
 
     //
     // Load image data into the STTexture. The texture will be

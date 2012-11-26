@@ -47,3 +47,58 @@ STColor4ub::STColor4ub(const STColor4f& c)
     , a(clampComponent(c.a))
 {
 }
+
+STColor4ub STColor4ub::operator+(const float s) const
+{
+    STColor4ub rval;
+    rval.r = this->r + s;
+    rval.g = this->g + s;
+    rval.b = this->b + s;
+    rval.a = this->a;
+    return rval;
+}
+
+STColor4ub STColor4ub::operator-(const float s) const
+{
+    return *this + (-s);
+}
+
+char minc(char lhs, char rhs)
+{
+    return lhs < rhs ? lhs : rhs;
+}
+
+STColor4ub STColor4ub::operator+(const STColor4ub& rhs) const
+{
+    STColor4ub rval;
+    rval.r = minc(255, this->r + rhs.r);
+    rval.g = minc(255, this->g + rhs.g);
+    rval.b = minc(255, this->b + rhs.b);
+    rval.a = this->a;
+    return rval;
+}
+
+STColor4ub STColor4ub::operator-(const STColor4ub& rhs) const
+{
+    STColor4ub rval;
+    rval.r = this->r - rhs.r;
+    rval.g = this->g - rhs.g;
+    rval.b = this->b - rhs.b;
+    rval.a = this->a;
+    return rval;
+}
+
+STColor4ub STColor4ub::operator*(const float s) const
+{
+    STColor4ub rval;
+    rval.r = this->r * s;
+    rval.g = this->g * s;
+    rval.b = this->b * s;
+    rval.a = this->a;
+    return rval;
+}
+
+STColor4ub STColor4ub::operator/(const float s) const
+{
+    return *this * (1.f / s);
+}

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8DD76F650486A84900D96B5E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
+		D0997C4716623D3900F918B9 /* ripple.vert in Sources */ = {isa = PBXBuildFile; fileRef = D0997C4616623D3900F918B9 /* ripple.vert */; };
 		E019EAE00F436BD800EE6385 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E019EADE0F436BD800EE6385 /* GLUT.framework */; };
 		E019EAE10F436BD800EE6385 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E019EADF0F436BD800EE6385 /* OpenGL.framework */; };
 		E019EB070F436BE700EE6385 /* libst.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E019EADC0F436B9700EE6385 /* libst.a */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		8DD76F6C0486A84900D96B5E /* ProgrammableShading */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ProgrammableShading; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0997C4616623D3900F918B9 /* ripple.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ripple.vert; sourceTree = "<group>"; };
 		D0A0EA911662087000028C87 /* default.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = default.vert; sourceTree = "<group>"; };
 		D0A0EA921662087000028C87 /* displacement.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = displacement.vert; sourceTree = "<group>"; };
 		D0A0EA931662087000028C87 /* lightprobe.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = lightprobe.frag; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				D0A0EA921662087000028C87 /* displacement.vert */,
 				D0A0EA931662087000028C87 /* lightprobe.frag */,
 				D0A0EA941662087000028C87 /* phong.frag */,
+				D0997C4616623D3900F918B9 /* ripple.vert */,
 			);
 			path = kernels;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD76F650486A84900D96B5E /* main.cpp in Sources */,
+				D0997C4716623D3900F918B9 /* ripple.vert in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

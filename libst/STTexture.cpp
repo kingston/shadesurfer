@@ -47,6 +47,20 @@ STTexture::~STTexture()
     glDeleteTextures(1, &mTexId);
 }
 
+void STTexture::LoadShortData(const short* data, int width, int height)
+{
+    Bind();
+    
+    mWidth = width;
+    mHeight = height;
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+                 width, height, 0,
+                 GL_RED, GL_SHORT, data);
+    
+    UnBind();
+}
+
 // Load image data into the STTexture. The texture will be
 // resized to match the image as needed. Use the options
 // to specify whether mip maps should be generated.

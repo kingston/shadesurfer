@@ -27,6 +27,13 @@ public:
     STColor4ub(Component r, Component g, Component b, Component a = 255);
     explicit STColor4ub(const STColor3f& c, Component a = 255);
     explicit STColor4ub(const STColor4f& c);
+    
+    STColor4ub operator+(const STColor4ub& rhs) const;
+    STColor4ub operator-(const STColor4ub& rhs) const;
+    STColor4ub operator+(const float s) const;
+    STColor4ub operator-(const float s) const;
+    STColor4ub operator*(const float s) const;
+    STColor4ub operator/(const float s) const;
 };
 
 #endif //__STCOLOR4UB_H__

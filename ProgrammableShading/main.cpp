@@ -8,6 +8,10 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+
+#define RIPPLE_RESOLUTION_X 400
+#define RIPPLE_RESOLUTION_Y 400
 
 //
 // Globals used by this application.
@@ -56,6 +60,7 @@ float mCameraAzimuth;
 float mCameraElevation;
 bool teapot = false;
 
+bool rippleEffect = false;
 
 void resetCamera()
 {
@@ -121,6 +126,80 @@ void AdjustCameraTranslationBy(STVector3 delta)
     mCameraTranslation += delta;
 }
 
+int cyclePeriod = 100;
+float rippleResolutionX = 400;
+float rippleResolutionY = 400;
+
+int previousRippleCycle = 0;
+bool isBuffer1Active = true;
+bool isRaining = true;
+
+short *buffer1 = NULL;
+short *buffer2 = NULL;
+STTexture *rippleTexture = NULL;
+
+short inline GetRipplePx(short* data, int x, int y) {
+    return data[y * RIPPLE_RESOLUTION_X + x];
+}
+
+void inline SetRipplePx(short* data, int x, int y, short value) {
+    data[y * RIPPLE_RESOLUTION_X + x] = value;
+}
+
+void ComputeRippleTexture()
+{
+    if (buffer1 == NULL) {
+        buffer1 = (short*) calloc(RIPPLE_RESOLUTION_X * RIPPLE_RESOLUTION_Y, sizeof(short));
+        buffer2 = (short*) calloc(RIPPLE_RESOLUTION_X * RIPPLE_RESOLUTION_Y, sizeof(short));
+    }
+    int time = glutGet(GLUT_ELAPSED_TIME);
+    int cyclesToRun = ceil((float)time / cyclePeriod) - ceil((float)previousRippleCycle / cyclePeriod);
+    if (cyclesToRun == 0) return;
+    cyclesToRun = fminf(cyclesToRun, 10); // Let's not get ahead of ourselves
+    for (int i = 0; i < cyclesToRun; i++) {
+        short *backBuffer = isBuffer1Active ? buffer1 : buffer2;
+        short *frontBuffer = isBuffer1Active ? buffer2 : buffer1;
+        
+        // Randomly induce rain
+        
+        if (isRaining && rand() % 4 == 1) {
+            int xCenter = rand() % (RIPPLE_RESOLUTION_X - 20) + 10;
+            int yCenter = rand() % (RIPPLE_RESOLUTION_X - 20) + 10;
+            for (int x = xCenter - 3; x < xCenter + 3; x++) {
+                for (int y = yCenter - 3; y < yCenter + 3; y++) {
+                    SetRipplePx(buffer1, x, y, rand() % 5000 + 1000);
+                }
+            }
+        }
+        
+        for (int j = RIPPLE_RESOLUTION_X; j < RIPPLE_RESOLUTION_X * (RIPPLE_RESOLUTION_Y - 1); j++) {
+            frontBuffer[j] = (backBuffer[j - 1] + backBuffer[j + 1] + backBuffer[j - RIPPLE_RESOLUTION_X] + backBuffer[j + RIPPLE_RESOLUTION_Y]) / 2 - frontBuffer[j];
+            frontBuffer[j] -= frontBuffer[j] >> 5;
+        }
+
+//        for (int x = 1; x < rippleResolutionX - 1; x++) {
+//            for (int y = 1; y < rippleResolutionY - 1; y++) {
+//                SetRipplePx(frontBuffer, x, y, (GetRipplePx(backBuffer, x-1, y) + GetRipplePx(backBuffer, x+1, y) + GetRipplePx(backBuffer, x, y-1) + GetRipplePx(backBuffer, x, y+1)) / 2 - GetRipplePx(frontBuffer, x, y));
+//                SetRipplePx(frontBuffer, x, y, GetRipplePx(frontBuffer, x, y) - (GetRipplePx(frontBuffer, x, y) >> 5));
+//            }
+//        }
+        
+        isBuffer1Active = !isBuffer1Active;
+    }
+    previousRippleCycle = time;
+    if (!rippleTexture) rippleTexture = new STTexture();
+    rippleTexture->LoadShortData(isBuffer1Active ? buffer1 : buffer2, RIPPLE_RESOLUTION_X, RIPPLE_RESOLUTION_Y);
+}
+
+void CleanUpRipples()
+{
+    if (buffer1) {
+        delete buffer1;
+        delete buffer2;
+    }
+    if (rippleTexture) delete rippleTexture;
+}
+
 //
 // Display the output image from our vertex and fragment shaders
 //
@@ -161,11 +240,21 @@ void DisplayCallback()
     glActiveTexture(GL_TEXTURE0);
     surfaceNormTex->Bind();
     
+    if (rippleEffect) {
+        ComputeRippleTexture();
+        glActiveTexture(GL_TEXTURE2);
+        rippleTexture->Bind();
+    }
+    
     // Bind the textures we've loaded into openGl to
     // the variable names we specify in the fragment
     // shader.
     shader->SetTexture("normalTex", 0);
     shader->SetTexture("envMapTex", 1);
+    
+    if (rippleEffect) {
+        shader->SetTexture("heightMapTex", 2);
+    }
 
     // Invoke the shader.  Now OpenGL will call our
     // shader programs on anything we draw.
@@ -292,6 +381,9 @@ void KeyCallback(unsigned char key, int x, int y)
         teapot = !teapot;
         if (teapot) printf("HTTP 418\n");
         break;
+    case 'w':
+        isRaining = !isRaining;
+        break;
 	case 'q':
 		exit(0);
     default:
@@ -374,6 +466,11 @@ int main(int argc, char** argv)
 	fragmentShader = std::string(argv[2]);
 	lightProbe     = std::string(argv[3]);
 	normalMap      = std::string(argv[4]);
+    
+    srand(time(NULL));
+    
+    if (vertexShader == "kernels/ripple.vert")
+        rippleEffect = true;
 
     //
     // Initialize GLUT.
@@ -420,7 +517,7 @@ int main(int argc, char** argv)
 
 
     // Cleanup code should be called here.
-
+    CleanUpRipples();
 
     return 0;
 }
