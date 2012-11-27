@@ -58,7 +58,7 @@ int gMouseButton = -1;
 STVector3 mCameraTranslation;
 float mCameraAzimuth;
 float mCameraElevation;
-bool teapot = false;
+bool teapot = true;
 
 bool rippleEffect = false;
 

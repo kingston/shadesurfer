@@ -27,8 +27,16 @@ void main()
 		N = normal;
 
 	vec3 C = vec3(0.0, 0.0, 0.0); // camera position
-
-	/* CS 148 TODO: Implement environment mapping here */
     
-    gl_FragColor = texture2D(envMapTex, texPos);
+    // Surface normal at N. Find N in light probe
+    
+    vec3 pointOnSphere = vec3(0.0, 0.0, 0.0) + normalize(N);
+    
+    // map (x, y) pointOnSphere to (x', y') in envMapTex
+    
+    float texPosX = (pointOnSphere.x + 1.0) / 2.0;
+    float texPosY = (pointOnSphere.y + 1.0) / 2.0;
+    vec2 envTexPos = vec2(texPosX , texPosY);
+    
+    gl_FragColor = texture2D(envMapTex, envTexPos);
 }
