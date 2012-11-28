@@ -23,7 +23,8 @@ float h(float u, float v)
     float a = 10.0; // frequency
     float speed = 6.0;
     vec2 pos = vec2(u - 0.5, v - 0.5);
-    return s * sin(a * 2.0 * PI * length(pos) - time / 1000.0 * speed) / (length(pos) * 20.0 + 1.0);
+    float modTime = mod(time, 1000.);
+    return s * sin(a * 2.0 * PI * length(pos) - modTime / 1000. * speed) / (length(pos) * 20.0 + 1.0);
 }
 
 void main()

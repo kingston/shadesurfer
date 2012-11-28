@@ -25,12 +25,10 @@ void main()
 		N = 2.*texture2D(normalTex, texPos).xyz - 1.;
 	else
 		N = normal;
-
-	vec3 C = vec3(0.0, 0.0, 0.0); // camera position
     
     // Surface normal at N. Find N in light probe
     
-    vec3 pointOnSphere = vec3(0.0, 0.0, 0.0) + normalize(N);
+    vec3 pointOnSphere = normalize(N);
     
     // map (x, y) pointOnSphere to (x', y') in envMapTex
     
